@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Player = (function () {
+ var Player = (function () {
     function Player(name, id, gamesWon) {
         if (gamesWon === void 0) { gamesWon = 0; }
         this.name = name;
@@ -10,4 +10,4 @@ var Player = (function () {
     return Player;
 }());
 exports.Player = Player;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicGxheWVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsicGxheWVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUE7SUFDSSxnQkFDVyxJQUFZLEVBQ1osRUFBVSxFQUNWLFFBQVk7UUFBWix5QkFBQSxFQUFBLFlBQVk7UUFGWixTQUFJLEdBQUosSUFBSSxDQUFRO1FBQ1osT0FBRSxHQUFGLEVBQUUsQ0FBUTtRQUNWLGFBQVEsR0FBUixRQUFRLENBQUk7SUFBRSxDQUFDO0lBRTlCLGFBQUM7QUFBRCxDQUFDLEFBTkQsSUFNQztBQU5ZLHdCQUFNIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicGxheWVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsicGxheWVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUE7SUFDSSxnQkFBbUIsSUFBWSxFQUFTLEVBQVUsRUFBUyxRQUFZO1FBQVoseUJBQUEsRUFBQSxZQUFZO1FBQXBELFNBQUksR0FBSixJQUFJLENBQVE7UUFBUyxPQUFFLEdBQUYsRUFBRSxDQUFRO1FBQVMsYUFBUSxHQUFSLFFBQVEsQ0FBSTtJQUV2RSxDQUFDO0lBQ0wsYUFBQztBQUFELENBQUMsQUFKRCxJQUlDO0FBSlksd0JBQU0ifQ==

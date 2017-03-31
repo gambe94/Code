@@ -1,6 +1,6 @@
-import * as $ from 'jquery';
+import * as $ from "jquery";
 import { Tile, TileState } from './tile';
-import { Player } from './player';
+import { Player } from "./player";
 import { SaveData } from "./save-data";
 
 export class GameBoard {
@@ -8,8 +8,9 @@ export class GameBoard {
     readonly y = 10;
 
     board: Tile[][];
-    playerOne = new Player("Player 1", 1);
-    playerTwo = new Player("Player 2", 1);
+
+    playerOne = new Player("Elso jatekos", 1);
+    playerTwo = new Player("Masodik jatekos", 2);
 
     currentPlayer: Player;
     winner: Player;
@@ -21,10 +22,15 @@ export class GameBoard {
     startGame() {
         if (!this.loadState()) {
             this.initializeBoard(this.tableElement, this.board = []);
-            this.currentPlayer =
-                this.winner === this.playerOne ? this.playerTwo : this.playerOne;
+            this.currentPlayer = this.winner === this.playerOne ? this.playerTwo : this.playerOne
         }
+
         this.registerHandlers(this.board);
+
+        var resetButton = $(".clear-results");
+        resetButton.click(() =>{
+            this.resetGame();
+        });
     }
 
     initializeBoard(tableElement: JQuery, board: Tile[][]) {
@@ -72,39 +78,35 @@ export class GameBoard {
         return true;
     }
 
+    localStorageKey = "amoeba-table";
+
     saveState() {
-        localStorage.setItem("amoeba-table", JSON.stringify(
-            <SaveData>{
+        localStorage.setItem(this.localStorageKey,
+            JSON.stringify(<SaveData>{
                 playerOne: this.playerOne,
                 playerTwo: this.playerTwo,
                 x: this.x,
                 y: this.y,
-                tileStates: this.board.map(row => row.map(tile => tile.state))
-            })
-        )
+                tileStates: this.board.map(row => row.map(tile => tile.state)),
+                current: 'player-one'
+            }));
     }
 
-    registerHandlers(board: Tile[][]) {
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board.length; j++) {
-                let tile = board[i][j];
-                tile.element.click(() => this.onTileClicked(tile));
-            }
-        }
-    }
+    won(player: Player) {
+        alert("Player " + player.id + " won! Congrats, " + player.name);
+        player.gamesWon++;
 
-    onTileClicked(tile: Tile) {
-        if (tile.state === TileState.Empty && this.winner === undefined) {
-            if (this.currentPlayer === this.playerOne) {
-                tile.setState(TileState.X);
-                this.currentPlayer = this.playerTwo;
-            } else if (this.currentPlayer === this.playerTwo) {
-                tile.setState(TileState.O);
-                this.currentPlayer = this.playerOne;
-            }
-            this.checkWinner();
-            this.saveState();
-        }
+        var continueButton = $(".continue-game");
+        continueButton.removeAttr("disabled").click(() => {
+            continueButton.attr("disabled", "disabled");
+            this.winner = undefined;
+            this.initializeBoard(this.tableElement, this.board = []);
+            this.currentPlayer = this.winner === this.playerOne ? this.playerTwo : this.playerOne;
+            this.registerHandlers(this.board);
+
+
+        });
+
     }
 
     checkWinner() {
@@ -133,19 +135,39 @@ export class GameBoard {
         }
     }
 
-    won(player: Player) {
-        alert("Player " + player.name + "won!")
-        player.gamesWon++;
-        var continueButton = $(".continue-game");
-        continueButton.removeAttr("disabled").click(() => {
-            continueButton.attr("disabled", "disabled")
-            this.winner = undefined;
-            this.startGame();
-        })
+    registerHandlers(board: Tile[][]) {
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+                let tile = board[i][j];
+                tile.element.click(() => {
+                    this.onTileClicked(tile);
+                });
+            }
+        }
     }
+
+    onTileClicked(tile: Tile) {
+        if (tile.state === TileState.Empty && this.winner === undefined) {
+            if (this.currentPlayer === this.playerOne) {
+                tile.setState(TileState.X);
+                this.currentPlayer = this.playerTwo;
+            } else if (this.currentPlayer === this.playerTwo) {
+                tile.setState(TileState.O);
+                this.currentPlayer = this.playerOne;
+            }
+
+            this.checkWinner();
+            this.saveState();
+        }
+    }
+
     resetGame(){
         this.initializeBoard(this.tableElement, this.board = []);
-        
+        this.playerOne.gamesWon = 0;
+        this.playerTwo.gamesWon = 0;
+        this.currentPlayer = this.playerOne;
+        this.registerHandlers(this.board);
+
     }
 
 }

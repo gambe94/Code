@@ -1,15 +1,17 @@
-import { TileState } from "./tile";
+import {TileState} from "./tile";
 
-export interface SaveData {
+export interface SaveData{
     playerOne: PlayerInfo;
     playerTwo: PlayerInfo;
+
     current: 'player-one' | 'player-two';
+
     x: number;
-    y: number;
-    tileStates: TileState[][];
+    y:number;
+    tileStates: TileState[][]
 }
 
-export interface PlayerInfo {
+export interface PlayerInfo{
     name: string;
     id: number;
     gamesWon: number;
